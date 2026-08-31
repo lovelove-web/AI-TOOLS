@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse — BMI Calculator</title>
+<meta name="description" content="Calculate your BMI, see where you fall on the health scale, and track your results over time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="page">
+
+    <!-- ============== Header ============== -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">Pulse</span>
+      </div>
+
+      <button
+        id="themeToggle"
+        class="theme-toggle"
+        role="switch"
+        aria-checked="false"
+        aria-label="Toggle dark mode">
+        <span class="theme-toggle-track">
+          <span class="theme-toggle-thumb"></span>
+        </span>
+        <span class="theme-toggle-label" id="themeLabel">Light</span>
+      </button>
+    </header>
+
+    <main class="layout">
+
+      <!-- ============== Calculator card ============== -->
+      <section class="panel calc-panel" aria-labelledby="calcHeading">
+        <div class="calc-grid">
+
+          <!-- Inputs -->
+          <div class="inputs">
+            <h1 id="calcHeading">What's your BMI today?</h1>
+            <p class="lede">Enter your height and weight to see your body mass index and what it means for you.</p>
+
+            <div class="unit-switch" role="tablist" aria-label="Measurement units">
+              <button type="button" class="unit-btn is-active" role="tab" aria-selected="true" data-unit="metric">Metric (cm / kg)</button>
+              <button type="button" class="unit-btn" role="tab" aria-selected="false" data-unit="imperial">Imperial (ft-in / lb)</button>
+            </div>
+
+            <form id="bmiForm" novalidate>
+
+              <!-- Metric fields -->
+              <div class="field-group" data-group="metric">
+                <div class="field">
+                  <label for="heightCm">Height</label>
+                  <div class="field-input">
+                    <input type="number" id="heightCm" inputmode="decimal" min="50" max="272" step="0.1" placeholder="170" required>
+                    <span class="suffix">cm</span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="weightKg">Weight</label>
+                  <div class="field-input">
+                    <input type="number" id="weightKg" inputmode="decimal" min="15" max="400" step="0.1" placeholder="68" required>
+                    <span class="suffix">kg</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Imperial fields -->
+              <div class="field-group is-hidden" data-group="imperial">
+                <div class="field field-split">
+                  <label for="heightFt">Height</label>
+                  <div class="field-input-row">
+                    <div class="field-input">
+                      <input type="number" id="heightFt" inputmode="numeric" min="1" max="8" step="1" placeholder="5">
+                      <span class="suffix">ft</span>
+                    </div>
+                    <div class="field-input">
+                      <input type="number" id="heightIn" inputmode="decimal" min="0" max="11.9" step="0.1" placeholder="7">
+                      <span class="suffix">in</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="weightLb">Weight</label>
+                  <div class="field-input">
+                    <input type="number" id="weightLb" inputmode="decimal" min="33" max="880" step="0.1" placeholder="150">
+                    <span class="suffix">lb</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="field-error" id="formError" role="alert" hidden></p>
+
+              <button type="submit" class="btn-primary">Calculate my BMI</button>
+            </form>
+          </div>
+
+          <!-- Gauge -->
+          <div class="result">
+            <div class="gauge" id="gauge">
+              <div class="gauge-ring"></div>
+              <div class="gauge-pointer" id="gaugePointer">
+                <span class="gauge-pointer-dot"></span>
+              </div>
+              <div class="gauge-center">
+                <span class="gauge-value" id="gaugeValue">--</span>
+                <span class="gauge-category" id="gaugeCategory">Enter your details</span>
+              </div>
+            </div>
+            <div class="gauge-scale" aria-hidden="true">
+              <span>12</span>
+              <span>42+</span>
+            </div>
+            <ul class="legend" aria-hidden="true">
+              <li><i style="--dot:var(--zone-under)"></i>Underweight</li>
+              <li><i style="--dot:var(--zone-normal)"></i>Healthy</li>
+              <li><i style="--dot:var(--zone-over)"></i>Overweight</li>
+              <li><i style="--dot:var(--zone-obese)"></i>Obese</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============== Recommendations ============== -->
+      <section class="panel reco-panel" id="recoPanel" aria-live="polite" aria-labelledby="recoHeading">
+        <h2 id="recoHeading">Recommendations</h2>
+        <p id="recoIntro" class="reco-intro">Calculate your BMI to see guidance tailored to your result.</p>
+        <ul id="recoList" class="reco-list"></ul>
+        <p class="disclaimer">BMI is a general screening measure, not a diagnosis. It doesn't account for muscle mass, bone density, age, or body composition. Talk to a healthcare provider for advice specific to you.</p>
+      </section>
+
+      <!-- ============== History ============== -->
+      <section class="panel history-panel" aria-labelledby="historyHeading">
+        <div class="history-head">
+          <h2 id="historyHeading">Your history</h2>
+          <button type="button" class="btn-text" id="clearHistory">Clear history</button>
+        </div>
+        <p class="history-empty" id="historyEmpty">No entries yet — your calculations will be saved here.</p>
+        <ul class="history-list" id="historyList"></ul>
+      </section>
+
+    </main>
+
+    <footer class="page-footer">
+      <p>Pulse BMI Calculator · results stay on your device</p>
+    </footer>
+
+  </div>
+
+<script src="script.js"></script>
+</body>
+</html>
