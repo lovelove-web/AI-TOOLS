@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Register — CSCT{% endblock %}
+{% block auth_content %}
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-brand"><i class="fa-solid fa-shield-halved"></i> Create your account</div>
+    <p class="text-muted small">New accounts are created with the <strong>Security Analyst</strong> role.
+      An Administrator can change your role later.</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-6 mb-3">
+          <label class="form-label">First name</label>
+          <input type="text" name="first_name" class="form-control" required>
+        </div>
+        <div class="col-6 mb-3">
+          <label class="form-label">Last name</label>
+          <input type="text" name="last_name" class="form-control" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Department (optional)</label>
+        <input type="text" name="department" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" name="password1" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Confirm password</label>
+        <input type="password" name="password2" class="form-control" required>
+      </div>
+      {% for field in form %}
+        {% for error in field.errors %}<div class="text-danger small">{{ field.label }}: {{ error }}</div>{% endfor %}
+      {% endfor %}
+      <button type="submit" class="btn btn-brand w-100 mb-3 mt-2">Create Account</button>
+      <div class="text-center small"><a href="{% url 'accounts:login' %}">Already have an account? Sign in</a></div>
+    </form>
+  </div>
+</div>
+{% endblock %}
