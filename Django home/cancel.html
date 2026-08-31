@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Payment cancelled — La Maison</title>
+<style>
+  body{font-family:Arial,sans-serif;background:#1b1410;color:#f5ede1;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;}
+  .box{max-width:420px;padding:40px;}
+  h1{font-size:2rem;margin-bottom:12px;}
+  a{color:#e8a33d;text-decoration:none;font-weight:600;}
+</style>
+</head>
+<body>
+  <div class="box">
+    <h1>Payment cancelled</h1>
+    <p>No charge was made. Your basket is still saved.</p>
+    <p style="margin-top:20px;"><a href="{% url 'home' %}">← Back to La Maison</a></p>
+  </div>
+</body>
+</html>
